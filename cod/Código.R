@@ -2,6 +2,7 @@
 # Carga de las librerías 
 library(sf)
 library(dplyr)
+library(ggplot2)
 
 
 # Importar las bases de datos
@@ -27,7 +28,16 @@ tabla.filtrada <- datos |>
 
 # Seleccionarlas columnas que serán utilizadas
 datos.filtrados <- datos|> 
-  head(200) |> 
+  head(1000) |> 
   select(sci_name, category, kingdom, marine, terrestria, freshwater, origin, seasonal)
+
+
+# Distribución de especies según su riesgo
+datos |>  
+  count(category, sort = T) |> 
+  ggplot(aes(x = reorder(category, n), y = n, fill = category )) +
+  geom_col() +
+  labs(title = "Cantidad de especies según su categoría", 
+       y = "Cantidad")
 
 
