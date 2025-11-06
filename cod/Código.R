@@ -57,3 +57,32 @@ datos |>
        y = "Cantidad")
 
 
+
+# Categorizar las especies por su hábitat
+datos.hábitat <- datos |> 
+  mutate(habitat = case_when(
+    terrestria == "true" & marine != "true" & freshwater != "true" ~ "Terrestre", 
+    terrestria != "true" & marine == "true" & freshwater != "true" ~ "Marino", 
+    terrestria != "true" & marine != "true" & freshwater == "true" ~ "Agua Dulce", 
+    terrestria == "true" & marine == "true" & freshwater != "true" ~ "Terrestre y Marino", 
+    terrestria == "true" & marine != "true" & freshwater == "true" ~ "Terrestre y Agua Dulce", 
+    terrestria != "true" & marine == "true" & freshwater == "true" ~ "Marino y Agua Dulce",
+    TRUE ~ "Otros"
+    )) |>
+  count(habitat) |> 
+  mutate(porcentaje = (n/sum(n)* 100)) |> 
+  group_by(habitat)
+
+datos.hábitat |> 
+ggplot(aes(x = reorder(habitat, porcentaje), y = porcentaje, fill = habitat)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(porcentaje, 2), "%")), vjust = -0.3, 
+            hjust = ifelse(datos.hábitat$habitat == "Terrestre", 1, -0.3), size = 3) +
+  labs(title = "Distribución de las especies por tipo de hábitat",
+       x = "Tipo de hábitat", 
+       y = "Porcentaje",
+       caption = "Fuente: IUCN Red List of Threatened Species") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+
