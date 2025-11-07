@@ -86,3 +86,43 @@ ggplot(aes(x = reorder(habitat, porcentaje), y = porcentaje, fill = habitat)) +
   theme(legend.position = "none") +
   coord_flip()
 
+
+# Gráfico sobre la Distribución de vulnerabilidad global de las especies estudiadas
+mammals.1 |> 
+  ggplot() +
+  geom_sf(aes(fill = category), alpha = 0.7, size = 0.1) +
+  scale_fill_manual(values = c("EX" = "black", "EW" = "#23DBDB", "CR" = "red", "EN" = "orange", 
+                               "VU" = "yellow", "NT" = "lightblue", "LC" = "green", "DD" = "grey", "NE" = "white"), # Poner los colores manualmente
+                    labels = c("EX" = "Extinto",
+                               "EW" = "Extinto en Estado Silvestre",
+                               "CR" = "En Peligro Crítico",
+                               "EN" = "En Peligro",
+                               "VU" = "Vulnerable",
+                               "NT" = "Casi Amenazado",
+                               "LC" = "Preocupación Menor",
+                               "DD" = "Datos Insuficientes",
+                               "NE" = "No Evaluado")) +  # Cambiar abreviación por palabras en el código de colores
+  labs(title = "Distribución Global de Especies Amenazadas") +
+  theme_void() # Borrar las coodenadas, fondos, nombres de los ejes, etc
+
+# Códigos devulnerabilidad
+# EX: Extinto
+# EW: Extinto en estado silvestre
+# CR: En peligro crítico
+# EN: En peligro
+# VU: Vulnerable
+# NT: Casi amenazado
+# LC: Preocupación menor
+# DD: Datos insuficientes
+# NE: No evaluado
+
+
+# El size dentro del geom_sf() es para el grosor de las líneas de los polígonos
+# El alpha es para la opacidad de los colores en el gráfico
+# La columna geometry contiene coordenadas globales en donde se realizaron las observaciones, con esas coordendas se crean los polígonos
+
+# Unir ambos shp
+mammals.unido <- rbind(mammals.1, mammals.2)
+
+# Valores unicos de las categorías de vulnerabilidad
+unique(mammals.1$category)
