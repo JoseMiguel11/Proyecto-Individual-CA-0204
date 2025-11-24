@@ -121,10 +121,6 @@ mammals.1 |>
 # DD: Datos insuficientes
 # NE: No evaluado
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7b71a7e177adcb7ad52a3c9294ddbfa5520bc7ae
 # El size dentro del geom_sf() es para el grosor de las líneas de los polígonos
 # El alpha es para la opacidad de los colores en el gráfico
 # La columna geometry contiene coordenadas globales en donde se realizaron las observaciones, con esas coordendas se crean los polígonos
