@@ -116,7 +116,6 @@ mammals.1 |>
 # DD: Datos insuficientes
 # NE: No evaluado
 
-
 # El size dentro del geom_sf() es para el grosor de las líneas de los polígonos
 # El alpha es para la opacidad de los colores en el gráfico
 # La columna geometry contiene coordenadas globales en donde se realizaron las observaciones, con esas coordendas se crean los polígonos
@@ -126,3 +125,40 @@ mammals.unido <- rbind(mammals.1, mammals.2)
 
 # Valores unicos de las categorías de vulnerabilidad
 unique(mammals.1$category)
+
+# Data frame con la observación más reciente
+datos.unicos <- datos |> 
+  arrange(desc(yrcompiled)) |>  # Ordenar por año más reciente
+  distinct(sci_name, .keep_all = TRUE) # Seleccionar por cada nombre cinetífico, solo la primer observación (Como está ordenado a más reciente entonces toma la observación más reciente)
+
+
+frecuencia.amenaza.por.categoria <- datos.unicos |> 
+  filter(category %in% c("CR", "EN", "VU")) |> 
+  count(order_, category) |>  # Contar cuántos ordenes hay en cada categoría
+  group_by(order_) |> 
+  mutate(total.amenazadas = sum(n)) |> # Cuenta el total de amenazas por cada especie 
+  filter(n() == 3) |> # Seleccionar solamente los que tienen las 3 categorías
+  ungroup() |> 
+  arrange(desc(total.amenazadas))  |> 
+  head(36) # 12 órdenes taxonomicos (Se pone 36 como parámetro pues hay 3 filas por cada orden)
+# Solo se escogieron 12 órdenes taxonómicos pues solo hay 12 grupos con las 3 categorías
+
+
+frecuencia.amenaza.por.categoria |> 
+  ggplot(aes(x = reorder(order_, total.amenazadas), y = n, fill = category)) +
+  geom_col() +
+  scale_fill_manual(values = c("CR" = "#FF6B6B", "EN" = "#FFA726", "VU" = "#FFD93D"),
+                    labels = c("CR" = "En peligro Crítico",
+                               "EN" = "En Peligro",
+                               "VU" = "Vulnerable")) +
+  scale_y_continuous(breaks = seq(0,600,100)) +
+  coord_flip() +
+  labs(title = "Órdenes Taxonómicos con mayor número de especies amenazadas",
+       subtitle = "Distribución por categoría de riesgo",
+       x = "Orden taxonómico", 
+       y = "Número de especies", 
+       fill = "Categoría") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
