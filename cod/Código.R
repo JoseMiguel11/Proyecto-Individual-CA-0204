@@ -92,6 +92,7 @@ mammals.1 |>
   ggplot() +
   geom_sf(aes(fill = category), alpha = 0.7, size = 0.1) +
   scale_fill_manual(values = c("EX" = "black", "EW" = "#23DBDB", "CR" = "red", "EN" = "orange", 
+<<<<<<< HEAD
                                "VU" = "yellow", "NT" = "lightblue", "LC" = "green", "DD" = "grey", "NE" = "white"), # Poner los colores manualmente
                     labels = c("EX" = "Extinto",
                                "EW" = "Extinto en Estado Silvestre",
@@ -103,6 +104,10 @@ mammals.1 |>
                                "DD" = "Datos Insuficientes",
                                "NE" = "No Evaluado")) +  # Cambiar abreviación por palabras en el código de colores
   labs(title = "Distribución Global de Especies Amenazadas") +
+=======
+                               "VU" = "yellow", "NT" = "lightblue", "LC" = "green", "DD" = "grey")) +  # Poner los colores manualmente
+  labs(title = "Distribución global de especies amenazadas") +
+>>>>>>> 7b71a7e177adcb7ad52a3c9294ddbfa5520bc7ae
   theme_void() # Borrar las coodenadas, fondos, nombres de los ejes, etc
 
 # Códigos devulnerabilidad
@@ -116,6 +121,10 @@ mammals.1 |>
 # DD: Datos insuficientes
 # NE: No evaluado
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b71a7e177adcb7ad52a3c9294ddbfa5520bc7ae
 # El size dentro del geom_sf() es para el grosor de las líneas de los polígonos
 # El alpha es para la opacidad de los colores en el gráfico
 # La columna geometry contiene coordenadas globales en donde se realizaron las observaciones, con esas coordendas se crean los polígonos
@@ -125,6 +134,7 @@ mammals.unido <- rbind(mammals.1, mammals.2)
 
 # Valores unicos de las categorías de vulnerabilidad
 unique(mammals.1$category)
+
 
 # Data frame con la observación más reciente
 datos.unicos <- datos |> 
@@ -160,5 +170,4 @@ frecuencia.amenaza.por.categoria |>
        fill = "Categoría") +
   theme_minimal() +
   theme(legend.position = "bottom")
-
 
