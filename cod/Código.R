@@ -92,7 +92,6 @@ mammals.1 |>
   ggplot() +
   geom_sf(aes(fill = category), alpha = 0.7, size = 0.1) +
   scale_fill_manual(values = c("EX" = "black", "EW" = "#23DBDB", "CR" = "red", "EN" = "orange", 
-<<<<<<< HEAD
                                "VU" = "yellow", "NT" = "lightblue", "LC" = "green", "DD" = "grey", "NE" = "white"), # Poner los colores manualmente
                     labels = c("EX" = "Extinto",
                                "EW" = "Extinto en Estado Silvestre",
@@ -104,10 +103,6 @@ mammals.1 |>
                                "DD" = "Datos Insuficientes",
                                "NE" = "No Evaluado")) +  # Cambiar abreviación por palabras en el código de colores
   labs(title = "Distribución Global de Especies Amenazadas") +
-=======
-                               "VU" = "yellow", "NT" = "lightblue", "LC" = "green", "DD" = "grey")) +  # Poner los colores manualmente
-  labs(title = "Distribución global de especies amenazadas") +
->>>>>>> 7b71a7e177adcb7ad52a3c9294ddbfa5520bc7ae
   theme_void() # Borrar las coodenadas, fondos, nombres de los ejes, etc
 
 # Códigos devulnerabilidad
