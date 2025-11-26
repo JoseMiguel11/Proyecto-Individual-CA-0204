@@ -48,13 +48,29 @@ datos.filtrados <- datos|>
   select(sci_name, category, kingdom, marine, terrestria, freshwater, origin, seasonal)
 
 
+orden <- c("EX", "EW", "CR", "EN", "VU", "NT", "LC", "DD", "NE")
 # Distribución de especies según su riesgo
 datos |>  
-  count(category, sort = T) |> 
-  ggplot(aes(x = reorder(category, n), y = n, fill = category )) +
+  count(category) |> 
+  mutate(category = factor(category, levels = orden)) |> 
+  ggplot(aes(x = category, y = n, fill = category )) +
   geom_col() +
+  scale_fill_manual(values = c("EX" = "#180501", "EW" = "#440E03", "CR" = "#701705", "EN" = "#9C2007", 
+                               "VU" = "#C82909", "NT" = "#F4320B", "LC" = "#F87C63", "DD" = "grey", "NE" = "white"),
+                    labels = c("EX" = "Extinto",
+                               "EW" = "Extinto en Estado Silvestre",
+                               "CR" = "En Peligro Crítico",
+                               "EN" = "En Peligro",
+                               "VU" = "Vulnerable",
+                               "NT" = "Casi Amenazado",
+                               "LC" = "Preocupación Menor",
+                               "DD" = "Datos Insuficientes",
+                               "NE" = "No Evaluado")) +
+  scale_y_continuous(breaks = seq(0,8000,1000))+
   labs(title = "Cantidad de especies según su categoría", 
-       y = "Cantidad")
+       x = "Categoría",
+       y = "Cantidad") +
+  theme_minimal()
 
 
 
