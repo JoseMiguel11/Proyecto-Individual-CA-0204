@@ -50,7 +50,7 @@ datos.filtrados <- datos|>
 
 orden <- c("EX", "EW", "CR", "EN", "VU", "NT", "LC", "DD", "NE")
 # Distribución de especies según su riesgo
-datos |>  
+datos.unicos |>  
   count(category) |> 
   mutate(category = factor(category, levels = orden)) |> 
   ggplot(aes(x = category, y = n, fill = category )) +
@@ -66,18 +66,19 @@ datos |>
                                "LC" = "Preocupación Menor",
                                "DD" = "Datos Insuficientes",
                                "NE" = "No Evaluado")) +
-  scale_y_continuous(breaks = seq(0,8000,1000)) +
+  scale_y_continuous(breaks = seq(0,3500,500)) +
   geom_text(aes(label = n), vjust = -0.45) +
   labs(title = "Cantidad de especies según su categoría", 
        x = "Categoría",
        y = "Cantidad",
-       fill = "Categoría") +
+       fill = "Categoría",
+       caption = "Fuente: IUCN Red List of Threatened Species") +
   theme_minimal()
 
 
 
 # Categorizar las especies por su hábitat
-datos.hábitat <- datos |> 
+datos.hábitat <- datos.unicos |> 
   mutate(habitat = case_when(
     terrestria == "true" & marine != "true" & freshwater != "true" ~ "Terrestre", 
     terrestria != "true" & marine == "true" & freshwater != "true" ~ "Marino", 
@@ -173,10 +174,11 @@ frecuencia.amenaza.por.categoria |>
   scale_y_continuous(breaks = seq(0,600,100)) +
   coord_flip() +
   labs(title = "Órdenes Taxonómicos con mayor número de especies amenazadas",
-       subtitle = "Distribución por categoría de riesgo",
        x = "Orden taxonómico", 
        y = "Número de especies", 
-       fill = "Categoría") +
+       fill = "Categoría",
+       caption = "Fuente: IUCN Red List of Threatened Species") +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 1.5))
 
