@@ -66,10 +66,12 @@ datos |>
                                "LC" = "Preocupación Menor",
                                "DD" = "Datos Insuficientes",
                                "NE" = "No Evaluado")) +
-  scale_y_continuous(breaks = seq(0,8000,1000))+
+  scale_y_continuous(breaks = seq(0,8000,1000)) +
+  geom_text(aes(label = n), vjust = -0.45) +
   labs(title = "Cantidad de especies según su categoría", 
        x = "Categoría",
-       y = "Cantidad") +
+       y = "Cantidad",
+       fill = "Categoría") +
   theme_minimal()
 
 
