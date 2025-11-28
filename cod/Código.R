@@ -3,6 +3,7 @@
 library(sf)
 library(dplyr)
 library(ggplot2)
+library(rnaturalearth)
 
 # Link de la carpeta en dropbox
 url <- "https://www.dropbox.com/scl/fi/z1npogjqf3q6lohm4g3f3/MAMMALS.zip?rlkey=zzia7ftshjnzwef7ovfqiytfn&st=beetnd2f&dl=1"
@@ -122,6 +123,31 @@ mammals.1 |>
                                "DD" = "Datos Insuficientes",
                                "NE" = "No Evaluado")) +  # Cambiar abreviación por palabras en el código de colores
   labs(title = "Distribución Global de Especies Amenazadas") +
+  theme_void() # Borrar las coodenadas, fondos, nombres de los ejes, etc
+
+#Crear el mapa mundi
+mapa.mundi <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Gráfico sobre la Distribución de especies en estado crítico
+mammals.unido |> 
+  filter(category == "CR") |> 
+  ggplot() +
+  geom_sf(data = mapa.mundi, fill = "white", color = "gray", size = 0.2) +
+  geom_sf(aes(fill = category), alpha = 0.7, size = 0.1) +
+  scale_fill_manual(values = c("EX" = "black", "EW" = "#23DBDB", "CR" = "red", "EN" = "orange", 
+                               "VU" = "yellow", "NT" = "lightblue", "LC" = "green", "DD" = "grey", "NE" = "white"), # Poner los colores manualmente
+                    labels = c("EX" = "Extinto",
+                               "EW" = "Extinto en Estado Silvestre",
+                               "CR" = "En Peligro Crítico",
+                               "EN" = "En Peligro",
+                               "VU" = "Vulnerable",
+                               "NT" = "Casi Amenazado",
+                               "LC" = "Preocupación Menor",
+                               "DD" = "Datos Insuficientes",
+                               "NE" = "No Evaluado")) +  # Cambiar abreviación por palabras en el código de colores
+  labs(title = "Distribución Global de Especies en Categoría Crítica",
+       caption = "Fuente: IUCN Red List of Threatened Species",
+       fill = "Categoría") +
   theme_void() # Borrar las coodenadas, fondos, nombres de los ejes, etc
 
 # Códigos devulnerabilidad
