@@ -198,6 +198,18 @@ frecuencia.amenaza.por.categoria |>
                                "EN" = "En Peligro",
                                "VU" = "Vulnerable")) +
   scale_y_continuous(breaks = seq(0,600,100)) +
+  scale_x_discrete(labels = c("PRIMATES" = "Primates",
+                              "RODENTIA" = "Roedores",
+                              "CHIROPTERA" = "Quirópteros",
+                              "ARTIODACTYLA" = "Artiodáctilos",
+                              "EULIPOTYPHLA" = "Eulipotiflos",
+                              "CARNIVORA" = "Carnívoros",
+                              "DIPROTODONTIA" = "Dipodrontos",
+                              "LAGOMORPHA" = "Lagomorfos",
+                              "AFROSORICIDA" = "Afrosorícidos",
+                              "PERISSODACTYLA" = "Perisodáctilos",
+                              "PHOLIDOTA" = "Folidotos",
+                              "PILOSA" = "Pilosos")) +
   coord_flip() +
   labs(title = "Órdenes Taxonómicos con mayor número de especies amenazadas",
        x = "Orden taxonómico", 
@@ -205,6 +217,5 @@ frecuencia.amenaza.por.categoria |>
        fill = "Categoría",
        caption = "Fuente: IUCN Red List of Threatened Species") +
   theme_minimal() +
-  theme(legend.position = "bottom",
-        plot.title = element_text(hjust = 1.5))
+  theme(legend.position = "bottom")
 
