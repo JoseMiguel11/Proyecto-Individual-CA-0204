@@ -27,6 +27,18 @@ archivos.shp <- list.files("data", pattern = "\\.shp$", recursive = TRUE, full.n
 mammals.1 <- st_read(archivos.shp[1]) # Primera parte de los datos
 mammals.2 <- st_read(archivos.shp[2]) # Segunda parte de los datos
 
+# Unir ambos shp
+mammals.unido <- rbind(mammals.1, mammals.2)
+
+# Valores unicos de las categorías de vulnerabilidad
+unique(mammals.1$category)
+
+
+# Data frame con la observación más reciente
+datos.unicos <- datos |> 
+  arrange(desc(yrcompiled)) |>  # Ordenar por año más reciente
+  distinct(sci_name, .keep_all = TRUE) # Seleccionar por cada nombre científico, solo la primer observación (Como está ordenado a más reciente entonces toma la observación más reciente)
+
 # Transformar los datos a tipo data frame
 datos.1 <- as.data.frame(mammals.1) |> 
   select(-geometry)
@@ -51,7 +63,7 @@ datos.filtrados <- datos|>
 
 orden <- c("EX", "EW", "CR", "EN", "VU", "NT", "LC", "DD", "NE")
 # Distribución de especies según su riesgo
-datos.unicos |>  
+grafico.1 <- datos.unicos |>  
   count(category) |> 
   mutate(category = factor(category, levels = orden)) |> 
   ggplot(aes(x = category, y = n, fill = category )) +
@@ -75,8 +87,8 @@ datos.unicos |>
        fill = "Categoría",
        caption = "Fuente: IUCN Red List of Threatened Species") +
   theme_minimal()
-
-
+ggsave("res/cantidad.especies.categoria.pdf", plot = grafico.1, width = 6, height = 5)
+ggsave("res/cantidad.especies.categoria.png", plot = grafico.1, width = 6, height = 5)
 
 # Categorizar las especies por su hábitat
 datos.hábitat <- datos.unicos |> 
@@ -93,7 +105,7 @@ datos.hábitat <- datos.unicos |>
   mutate(porcentaje = (n/sum(n)* 100)) |> 
   group_by(habitat)
 
-datos.hábitat |> 
+grafico.2 <- datos.hábitat |> 
 ggplot(aes(x = reorder(habitat, porcentaje), y = porcentaje, fill = habitat)) +
   geom_col() +
   geom_text(aes(label = paste0(round(porcentaje, 2), "%")), vjust = -0.3, 
@@ -105,6 +117,9 @@ ggplot(aes(x = reorder(habitat, porcentaje), y = porcentaje, fill = habitat)) +
   theme_minimal() +
   theme(legend.position = "none") +
   coord_flip()
+ggsave("res/distirbucion.habitat.pdf", plot = grafico.2, width = 6, height = 5)
+ggsave("res/distirbucion.habitat.png", plot = grafico.2, width = 6, height = 5)
+
 
 
 # Gráfico sobre la Distribución de vulnerabilidad global de las especies estudiadas
@@ -124,6 +139,7 @@ mammals.1 |>
                                "NE" = "No Evaluado")) +  # Cambiar abreviación por palabras en el código de colores
   labs(title = "Distribución Global de Especies Amenazadas") +
   theme_void() # Borrar las coodenadas, fondos, nombres de los ejes, etc
+
 
 #Crear el mapa mundi
 mapa.mundi <- ne_countries(scale = "medium", returnclass = "sf")
@@ -164,18 +180,6 @@ mammals.unido |>
 # El size dentro del geom_sf() es para el grosor de las líneas de los polígonos
 # El alpha es para la opacidad de los colores en el gráfico
 # La columna geometry contiene coordenadas globales en donde se realizaron las observaciones, con esas coordendas se crean los polígonos
-
-# Unir ambos shp
-mammals.unido <- rbind(mammals.1, mammals.2)
-
-# Valores unicos de las categorías de vulnerabilidad
-unique(mammals.1$category)
-
-
-# Data frame con la observación más reciente
-datos.unicos <- datos |> 
-  arrange(desc(yrcompiled)) |>  # Ordenar por año más reciente
-  distinct(sci_name, .keep_all = TRUE) # Seleccionar por cada nombre cinetífico, solo la primer observación (Como está ordenado a más reciente entonces toma la observación más reciente)
 
 
 frecuencia.amenaza.por.categoria <- datos.unicos |> 
