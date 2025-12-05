@@ -258,5 +258,5 @@ grafico.6 <- frecuencia.amenaza.por.categoria |>
   theme_minimal() +
   theme(legend.position = "bottom")
 
-ggsave("ordenes.taxonomico.pdf", plot = grafico.6, width = 6, height = 3)
-ggsave("ordenes.taxonomico.png", plot = grafico.6, width = 6, height = 3)
+ggsave("res/ordenes.taxonomico.pdf", plot = grafico.6, width = 6, height = 3)
+ggsave("res/ordenes.taxonomico.png", plot = grafico.6, width = 6, height = 3)
