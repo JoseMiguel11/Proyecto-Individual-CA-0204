@@ -88,8 +88,9 @@ grafico.1 <- datos.unicos |>
        fill = "Categoría",
        caption = "Fuente: IUCN Red List of Threatened Species") +
   theme_minimal()
-ggsave("res/cantidad.especies.categoria.pdf", plot = grafico.1, width = 6, height = 5)
-ggsave("res/cantidad.especies.categoria.png", plot = grafico.1, width = 6, height = 5)
+
+ggsave("res/cantidad.especies.categoria.pdf", plot = grafico.1, width = 6, height = 3)
+ggsave("res/cantidad.especies.categoria.png", plot = grafico.1, width = 6, height = 3)
 
 # Categorizar las especies por su hábitat
 datos.hábitat <- datos.unicos |> 
@@ -116,10 +117,11 @@ ggplot(aes(x = reorder(habitat, porcentaje), y = porcentaje, fill = habitat)) +
        y = "Porcentaje",
        caption = "Fuente: IUCN Red List of Threatened Species") +
   theme_minimal() +
-  theme(legend.position = "none") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0)) +
   coord_flip()
-ggsave("res/distribucion.habitat.pdf", plot = grafico.2, width = 6, height = 5)
-ggsave("res/distribucion.habitat.png", plot = grafico.2, width = 6, height = 5)
+ggsave("res/distribucion.habitat.pdf", plot = grafico.2, width = 6, height = 3)
+ggsave("res/distribucion.habitat.png", plot = grafico.2, width = 6, height = 3)
 
 
 
@@ -141,8 +143,8 @@ grafico.3 <- mammals.1 |>
   labs(title = "Distribución Global de Especies Amenazadas") +
   theme_void() # Borrar las coordenadas, fondos, nombres de los ejes, etc
 
-ggsave("res/distribucion.mundial.categorías.1.pdf", plot = grafico.3, width = 8, height = 5)
-ggsave("res/distribucion.mundial.categorías.1.png", plot = grafico.3, width = 8, height = 5)
+ggsave("res/distribucion.mundial.categorías.1.pdf", plot = grafico.3, width = 8, height = 3)
+ggsave("res/distribucion.mundial.categorías.1.png", plot = grafico.3, width = 8, height = 3)
 
 
 mammals.ordenado <- mammals.unido |> 
@@ -166,8 +168,8 @@ grafico.4 <- mammals.ordenado |>
   labs(title = "Distribución Global de Especies Amenazadas") +
   theme_void()
 
-ggsave("res/distribucion.mundial.categorías.pdf", plot = grafico.4, width = 8, height = 5)
-ggsave("res/distribucion.mundial.categorías.png", plot = grafico.4, width = 8, height = 5)
+ggsave("res/distribucion.mundial.categorías.pdf", plot = grafico.4, width = 8, height = 3)
+ggsave("res/distribucion.mundial.categorías.png", plot = grafico.4, width = 8, height = 3)
 
 
 #Crear el mapamundi
@@ -195,8 +197,8 @@ grafico.5 <- mammals.unido |>
        fill = "Categoría") +
   theme_void() 
 
-ggsave("res/distribucion.mundial.críticas.pdf", plot = grafico.5, width = 8, height = 5)
-ggsave("res/distribucion.mundial.críticas.png", plot = grafico.5, width = 8, height = 5)
+ggsave("res/distribucion.mundial.críticas.pdf", plot = grafico.5, width = 8, height = 3)
+ggsave("res/distribucion.mundial.críticas.png", plot = grafico.5, width = 8, height = 3)
 
 
 # Códigos de vulnerabilidad
@@ -227,7 +229,7 @@ frecuencia.amenaza.por.categoria <- datos.unicos |>
 # Solo se escogieron 12 órdenes taxonómicos pues solo hay 12 grupos con las 3 categorías
 
 
-frecuencia.amenaza.por.categoria |> 
+grafico.6 <- frecuencia.amenaza.por.categoria |> 
   ggplot(aes(x = reorder(order_, total.amenazadas), y = n, fill = category)) +
   geom_col() +
   scale_fill_manual(values = c("CR" = "#FF6B6B", "EN" = "#FFA726", "VU" = "#FFD93D"),
@@ -256,3 +258,5 @@ frecuencia.amenaza.por.categoria |>
   theme_minimal() +
   theme(legend.position = "bottom")
 
+ggsave("ordenes.taxonomico.pdf", plot = grafico.6, width = 6, height = 3)
+ggsave("ordenes.taxonomico.png", plot = grafico.6, width = 6, height = 3)
