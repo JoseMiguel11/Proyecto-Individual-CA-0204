@@ -143,7 +143,6 @@ grafico.3 <- mammals.1 |>
   labs(title = "Distribución Global de Especies Amenazadas") +
   theme_void() # Borrar las coordenadas, fondos, nombres de los ejes, etc
 
-ggsave("res/distribucion.mundial.categorías.1.pdf", plot = grafico.3, width = 8, height = 3)
 ggsave("res/distribucion.mundial.categorías.1.png", plot = grafico.3, width = 8, height = 3)
 
 
@@ -168,7 +167,6 @@ grafico.4 <- mammals.ordenado |>
   labs(title = "Distribución Global de Especies Amenazadas") +
   theme_void()
 
-ggsave("res/distribucion.mundial.categorías.pdf", plot = grafico.4, width = 8, height = 3)
 ggsave("res/distribucion.mundial.categorías.png", plot = grafico.4, width = 8, height = 3)
 
 
@@ -260,3 +258,4 @@ grafico.6 <- frecuencia.amenaza.por.categoria |>
 
 ggsave("res/ordenes.taxonomico.pdf", plot = grafico.6, width = 6, height = 3)
 ggsave("res/ordenes.taxonomico.png", plot = grafico.6, width = 6, height = 3)
+
