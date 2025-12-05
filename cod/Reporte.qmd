@@ -1,0 +1,81 @@
+---
+title: "Análisis de las Categorías de Amenaza de Mamíferos del 2008 al 2025"
+author: "José Miguel Rodríguez Gómez"
+format:
+  pdf:
+    pdf-engine: xelatex
+    mainfont: "Times New Roman"
+    margin-left: "2.54cm"
+    margin-right: "2.54cm"
+    margin-top: "2.54cm"
+    margin-bottom: "2.54cm"
+    documentclass: article
+    include-in-header:
+      text: |
+        \usepackage{indentfirst}
+        \setlength{\parindent}{1.5cm}
+        \setlength{\parskip}{0.5em}
+editor: visual
+---
+
+# Justificación
+
+Elegí este tema pues me parece de gran importancia concientizar y dar un panorama general de cuál es la situación actual de las especies en peligro de extinción estudiadas. Otro punto importante es el de evaluar las posibles consecuencias que podrían tener los casos de animales en peligro de extinción; además siempre me ha parecido un tema de gran importancia.
+
+# Obtención de Datos y Librerías Utilizadas
+
+Los datos que fueron utilizados se obtuvieron a través de la página de la Unión Internacional para la Conservación de la Naturaleza UICN, del cual se obtuvieron dos archivos tipo shapefile, los cuales contienen los datos que serán utilizados para el desarrollo del proyecto. Se utilizó dplyr para el manejo de Data Frames, ggplot2 para realizar los gráficos; sf para la lectura de los datos pues estos tenían extención .shp y finalmente se utilizó la librería rnaturalearth para la creación del mapamundi para uno de los gráficos.
+
+# Análisis Exploratorio
+
+Luego de importar las dos bases de datos utilizadas y unirlas, se observó que hay un total de 13238 filas y 29 columnas, las variables utilizadas en este proyecto fueron: "sci_name" la cual contiene el nombre científico del animal, "yrcompiled" la cual contiene el año en que se realizó el registro de la especie, "order" la cual contiene el orden taxonómico de la especie; el orden taxonómico agrupa a varias familias de especies que comparten alguna característica evolutiva como ser omnívoro, tener un número par o impar de dedos, etc; también se utilizó la variable "category" la cual contiene la abreviación de la categoría de amenaza en la que se encuentra la especie, después se utilizó "marine", "terrestria" y "freshwater" las cuales contienen true o false en caso de que la especie sea marina, terrestre, de agua dulce o tenga varios hábitats, en ese caso tendrá true en varias columnas; finalmente se utilizó la columna "geometry" para hacer gráficos con ggplot2.
+
+# Desarrollo
+
+Se realizaron varios gráficos con los datos obtenidos de la base de datos, entre ellos se encuentra un gráfico sobre la cantidad de especies según su categoría de amenaza, otro sobre los órdenes taxonómicos con mayor número de especies en la categoría "En peligro Crítico", "En peligro" y "Vulnerable"; para este gráfico se ordenó la tabla según el año de observación, de más reciente a más antiguo y se eligió una la observación más reciente de cada especie, esto con el fin de no tomar en cuenta varias observaciones de la misma especie. Otro de los gráficos realizados fue el de la distribución global de las especies en estado crítico de las especies, mostradas en el mapamundi, el cual se construyó con el paquete "rnaturalearth" y la columna geometry de los datos. Finalmente se realizó un gráfico de la distribución global de las especies según su categoría, se muestra desde la categoría "Extinto " hasta la categoría de "Preocupación Menor" y los que se categorizan como "Datos Insuficientes"; en un principio el gráfico se realizó con el orden en que venían por defecto los datos, pero gracias a la retroalimentación proporcionada se decidió por ordenar los datos de más antiguo a más reciente, para ver cuál es la situación general actual de las especies.
+
+# Resultados
+
+El primer gráfico realizado fue el de la cantidad de especies en cada categoría de amenaza:
+
+![](C:/Users/mr214/Documents/Herramientas%20para%20Ciencias%20de%20Datos%20I/Proyecto-Individual-CA-0204/res/cantidad.especies.categoria.pdf)
+     
+De este gráfico podemos observar que tenemos 15 Especies Extintas, 1 Extinto en Estado Silvestre, 238 en Estado Crítico, 559 En Peligro, 567 Vulnerables, 399 Casi Amenazados, 3390 como Preocupación Menor, esta categoría es la que mayor parte de los datos posee, representando aproximadamente el 57.11% del total de observaciones únicas, y, finalmente, hay 767 en la categoría de Datos Insuficientes. Es importante mencionar que los datos tenían varias observaciones del mismo animal, esto porque las visitas a los animales se hacen cada cierto tiempo. Para este gráfico se filtraron los datos y se seleccionó la observación más reciente.
+
+Para categorizar las especies se utiliza el siguiente criterio: Extinto: No hay ningún animal de la especie vivo, un ejemplo es el Lobo de las Malvinas, el zorro volador de Guam y el lémur perezoso gigante. Extinto en Estado Salvaje: No quedan ejemplares en la naturaleza, solamente en reservas naturales o institutos especializados, para el caso de los datos solamente hay un animal que está extinto en estado salvaje el cual es el ciervo del padre David. La siguiente categoría es En Peligro Crítico en el cual se categorizan las especies que han perdido de un 80% a un 90% de población en los últimos 10 años o 3 generaciones, para animales grandes y que viven varios años se usa el criterio de 10 años; mientras que para animales pequeños que viven menos se usa el criterio de las 3 generaciones; más del 90% de pérdida de población se categoriza en una subcategoría, pero para efectos de los datos se categoriza en estado crítico. Las especies en Peligro son aquellas las cuales han perdido entre un 50% y un 70% de la población, igual que el caso anterior para una pérdida del 70% al 80% se crean subcategorías pero para efecto de la base de datos se queda en la categoría de Peligro. Las Vulnerables son aquellas que han perdido entre un 20% y 50% de la población; y menos de 20% se reparte entre la categoría de casi amenazado o preocupación menor.
+          
+El segundo gráfico muestra la distribución del hábitat del total de datos:
+
+![](C:/Users/mr214/Documents/Herramientas%20para%20Ciencias%20de%20Datos%20I/Proyecto-Individual-CA-0204/res/distribucion.habitat.pdf)
+          
+En este gráfico que la gran mayoría de las especies estudiadas es de hábitat terrestre, representando un 95.74% del total de datos, nuevamente, solamente se añadieron las observaciones únicas más recientes de cada especie; en este hábitat se presentan animales como el gorila. El segundo hábitat con mayor porcentaje de especies en el estudio fue el terrestre y agua dulce, con un 2%, que posee animales como el Desmán Almizclero. El tercer hábitat fue el marino con un 1.33% de los datos, el cual contiene animales como la ballena de Rice, la cual está en peligro crítico. La siguiente categoría fue la de marino y terrestre, representando un 0.51% de los datos, con animales como el león marino de Steller, luego de este hábitat sigue Otros, el cual son animales que pertenecen al hábitat marino, terrestre y de agua dulce, un animal de estos hábitats al mismo tiempo es la foca. Luego se encuentran los animales en hábitat marino y de agua dulce, y finalmente el hábitat que menos porcentaje tiene es el de agua dulce, con solamente un 0.1%. El dato del tipo de hábitat no estaba como tal en los datos, sino que yo la creé a partir de las columnas de marine, terrestria y freshwhater, las cuales como se mencionó anteriormente continen "true" o "false".
+
+El siguiente gráfico es sobre los órdenes taxonómicos son mayor número de especies amenazadas:
+
+![](C:/Users/mr214/Documents/Herramientas%20para%20Ciencias%20de%20Datos%20I/Proyecto-Individual-CA-0204/res/ordenes.taxonomico.pdf)
+
+Para este gráfico es importante reiterar que el orden taxonómico es el nivel biológico que agrupa a varias familias de animales que comparten alguna característica evolutiva, como lo puede ser si es omnívoro, si tiene un número par o impar de dedos, mamíferos que son capaces de volar, etc. Se puede observar que los dos órdenes con mayor cantidad de especies amenazadas son los primates y los roedores, los primates incluye a varios tipos de monos, como lo pueden ser los gorilas, chimpancés, mono capuchino, etc. Mientras que los roedores incluyen los ratones, ratas, ardillas, hámsteres, etc; podemos ver que los primates tienen mayor cantidad tanto en la categoría crítica como en la de peligro, pero menos en la categoría vulnerable, comparándolo con los roedores. Luego de esas dos categorías la cantidad de especies amenazadas baja a unas 225 con los quirópteros, el cual es el orden de los mamíferos capaces de volar como lo pueden ser los murciélagos. Finalmente el orden que menos cantidad de especies amenazadas tiene es el de los pilosos el cual es el orden que contiene a los perezosos y osos hormigueros con muy poca cantidad. Es importante mencionar que estos no son todos los órdenes taxonómicos, pues para este gráfico se seleccionó solamente aquellos órdenes que tuvieran mínimo una especie por cada una de las 3 categorías seleccionadas.
+
+El siguiente gráfico es sobre la distribución mundial de las especies en peligro crítico
+
+![](C:/Users/mr214/Documents/Herramientas%20para%20Ciencias%20de%20Datos%20I/Proyecto-Individual-CA-0204/res/distribucion.mundial.críticas.pdf)
+
+Este gráfico muestra todos los lugares en que las especies se encuentran o han encontrado en peligro crítico de extinción a lo largo de los años de estudio. Las regiones de Europa, Brasil, Argentina, Perú y Parte de Venezuela y Colombia tienen especies en peligro crítico principalmente por la fragmentación del hábitat de los animales, esto debido a la expansión de las ciudades, expansión del área agrícola y para el caso de México también por la expansión para zonas de ganadería. El caso de África es muy preocupante debido a que gran parte del continente se encuentra rojo, esto ha sido debido a la caza de animales que poseen marfil, como lo es el caso de los rinocerontes y elefantes, la afectación fue tanta que muchos de los refugios y conservas naturales tuvieron que recurrir a cortarle los cuernos a los rinocerontes, e incluso en algunos casos material radioactivo que hace que el cuerno pierda todo su valor de marfil, también todos los animales poseen gps localizadores y en algunos casos los animales son custodiados por guardias armados.
+
+Para Asia este color rojo se ha debido a que son zonas sumamente corruptas en las que la trata de animales es común y no es penalizado pues en muchos países sobornan a la policía para que los dejen traficar con animales. Finalmente la zona norte del Océano Atlántico y sur del Océano Ártico es debido al aumento de las temperaturas de las masas de agua en los últimos años, el animal que ha sido más afectado por esto es la Ballena de Rice.
+
+El último gráfico muestra la distribución de todas las categorías de amenaza de todos los datos
+
+![](C:/Users/mr214/Documents/Herramientas%20para%20Ciencias%20de%20Datos%20I/Proyecto-Individual-CA-0204/res/distribucion.mundial.categorías.png)
+
+Este gráfico es diferente al mostrado en la exposición pues gracias a retroalimentación del profesor se llegó a la conclusión que el gráfico sería más preciso si se ordenaran los datos de más antiguo a más reciente. En el gráfico se puede observar que gran parte del área mundial tiene color verde, lo que indica que son especies de preocupación menor, pero esto no quiere decir que sean especies seguras, sino que a comparación con las demás especies, estas son las tienen menos riesgo de extinguirse, pero si recordamos, esta categoría abarca a las especies que han perdido menos del 20% de su población en los últimos 10 años o 3 generaciones, por lo que podrían haber especies que estén perdiendo un 19% o incluso 10% que también es preocupante y se puede observar que prácticamente todo el continente de África se encuentra en amarillo, por lo que las especies están en peligro vulnerable.
+
+# Conclusiones
+
+A lo largo del desarrollo de esta investigación se logró determinar que la mayoría de las especies se encuentran categorizadas como preocupación menor; y a pesar de que no hayan muchas especies en peligro o en peligro crítico, son suficientes para generar desequilibrio en los ecosistemas del planeta, pues cuando falta un animal en un hábitat, puede generar grandes cambios en el ecosistema, que al principio no se ven, pero podría llegar a causar la extinción de otra especie indirectamente, como por ejemplo si faltara un depredador, al principio las presas se ven beneficiadas pero con el tiempo empiezan a haber más y más individuos, por lo que la comida empieza a escasear y los animales empiezan a morir de hambre. También se vio que el orden taxonómico con mayor número de especies en peligro fue el de los primates, esto se puede deber a que, como se mencionó anteriormente, una de las principales razones del peligro crítico en las especies es a causa de la expansión de áreas para la ganadería, agricultura y construcción de ciudades y empresas
+
+\newpage
+
+# Referencias
+
+IUCN (2025). METADATA: Digital Distribution Maps on The IUCN Red List of Threatened Species. https://www.iucnredlist.org/resources/spatial-data-download#mammals
